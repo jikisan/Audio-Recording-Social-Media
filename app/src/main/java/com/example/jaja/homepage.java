@@ -2,6 +2,8 @@ package com.example.jaja;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -22,15 +24,23 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
+import adapter_and_fragmets.AdapterRecordingsItem;
+import adapter_and_fragmets.AdapterTrendingsItem;
+import adapter_and_fragmets.Recordings;
 import adapter_and_fragmets.Users;
 
 public class homepage extends AppCompatActivity {
 
     private ImageView iv_bannerPhoto;
     private EditText et_search;
+    private RecyclerView rv_trendings;
 
     private Uri imageUri;
     private String userID, tempImageName;
+    private ArrayList<Users> arrUsers;
+    private AdapterTrendingsItem adapterTrendingsItem;
 
     private StorageReference userStorage;
     private FirebaseUser user;
@@ -47,6 +57,7 @@ public class homepage extends AppCompatActivity {
         
         setRef();
         generateData();
+        generateRecyclerLayout();
         clickListeners();
     }
 
@@ -78,6 +89,45 @@ public class homepage extends AppCompatActivity {
 
     }
 
+    private void generateRecyclerLayout() {
+
+        rv_trendings.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        rv_trendings.setLayoutManager(linearLayoutManager);
+
+        arrUsers = new ArrayList<>();
+        adapterTrendingsItem = new AdapterTrendingsItem(arrUsers, getApplicationContext());
+        rv_trendings.setAdapter(adapterTrendingsItem);
+        generateRvData();
+        adapterTrendingsItem.notifyDataSetChanged();
+    }
+
+    private void generateRvData() {
+
+        userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        Users users = dataSnapshot.getValue(Users.class);
+                        arrUsers.add(users);
+                    }
+
+                    adapterTrendingsItem.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     private void clickListeners() {
         iv_bannerPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,5 +141,6 @@ public class homepage extends AppCompatActivity {
     private void setRef() {
        et_search = findViewById(R.id.et_search);
        iv_bannerPhoto = findViewById(R.id.iv_bannerPhoto);
+        rv_trendings = findViewById(R.id.rv_trendings);
     }
 }

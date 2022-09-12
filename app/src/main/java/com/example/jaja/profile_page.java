@@ -79,8 +79,8 @@ public class profile_page extends AppCompatActivity {
 
     private AudioRecorder audioRecorder;
     private File recordFile;
-    RecordView recordView;
-    RecordButton recordButton;
+    private RecordView recordView;
+    private RecordButton recordButton;
     private String mFileName = null;
 
     private RecyclerView rv_myRecordings;
@@ -153,12 +153,12 @@ public class profile_page extends AppCompatActivity {
                 mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
                 mFileName += "/recorded_audio.3gp";
 
-//                recordFile = new File(getFilesDir(), audioName);
-                recordFile = new File(mFileName);
+                recordFile = new File(getFilesDir(), audioName);
+//                recordFile = new File(mFileName);
 
                 try {
-//                    audioRecorder.start(recordFile.getPath());
-                    audioRecorder.start(mFileName);
+                    audioRecorder.start(recordFile.getPath());
+//                    audioRecorder.start(mFileName);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -455,8 +455,8 @@ public class profile_page extends AppCompatActivity {
                         progressDialog.show();
 
                         String audioPath = recordFile.getPath();
-//                        Uri audioUri = Uri.fromFile(new File(audioPath));
-                        Uri audioUri = Uri.fromFile(new File(mFileName));
+                        Uri audioUri = Uri.fromFile(new File(audioPath));
+//                        Uri audioUri = Uri.fromFile(new File(mFileName));
 
                         Log.d("getPath", recordFile.getPath());
                         Log.d("getAbsolutePath", recordFile.getAbsolutePath());
