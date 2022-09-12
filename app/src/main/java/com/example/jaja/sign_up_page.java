@@ -158,17 +158,6 @@ public class sign_up_page extends AppCompatActivity {
                                                     Toast.makeText(sign_up_page.this, "Account Created", Toast.LENGTH_LONG).show();
                                                     startActivity(new Intent(getApplicationContext(), login_page.class));
 
-//                                                    new SweetAlertDialog(sign_up_page.this, SweetAlertDialog.SUCCESS_TYPE)
-//                                                            .setTitleText("Account Created.")
-//                                                            .setContentText("Please check your email " +
-//                                                                    "\nto verify your account.")
-//                                                            .setConfirmButton("Proceed", new SweetAlertDialog.OnSweetClickListener() {
-//                                                                @Override
-//                                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                                                                    startActivity(new Intent(getApplicationContext(), login_page.class));
-//                                                                }
-//                                                            })
-//                                                            .show();
                                                 } else {
                                                     Toast.makeText(sign_up_page.this, "Creation Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                 }

@@ -57,7 +57,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/add_photo"
         app:layout_constraintBottom_toBottomOf="@+id/iv_userPhoto"
-        app:layout_constraintEnd_toEndOf="@+id/iv_userPhoto" />
+        app:layout_constraintEnd_toEndOf="@+id/iv_userPhoto"
+        app:tint="@color/green_background" />
 
     <TextView
         android:id="@+id/tv_userName"
@@ -72,6 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_userPhoto" />
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -82,18 +84,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_userName" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_myRecordings"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/record_view_relative_layout"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/green_background"
-        android:contentDescription="submit"
-        android:src="@drawable/mic_logo"
+    <RelativeLayout
+        android:id="@+id/record_view_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <com.devlomi.record_view.RecordView
+            android:id="@+id/record_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/record_button"
+            app:cancel_text="CANCEL"
+            app:cancel_text_color="#ff0000"
+            app:cancel_text_margin_right="10dp"
+            app:counter_time_color="#ff0000"
+            app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
+            app:slide_to_cancel_arrow_color="#000000"
+            app:slide_to_cancel_bounds="10dp"
+            app:slide_to_cancel_margin_right="10dp"
+            app:slide_to_cancel_text="Slide To Cancel" />
+
+        <com.devlomi.record_view.RecordButton
+            android:id="@+id/record_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/recv_bg_mic"
+            android:scaleType="centerInside"
+            app:mic_icon="@drawable/recv_ic_mic_white"
+            app:send_icon="@drawable/recv_ic_send" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
