@@ -13,13 +13,11 @@ public class Users {
     String password;
     String imageName;
     String imageUrl;
-    String ratings;
-    String ratingsCount;
+    int followers;
 
     public Users(){}
 
-    public Users(String fullName, String userId, String firstName, String lastName, String contactNum,
-                 String email, String password, String imageName, String imageUrl, String ratings) {
+    public Users(String fullName, String userId, String firstName, String lastName, String contactNum, String email, String password, String imageName, String imageUrl, int followers) {
         this.fullName = fullName;
         this.userId = userId;
         this.firstName = firstName;
@@ -29,7 +27,7 @@ public class Users {
         this.password = password;
         this.imageName = imageName;
         this.imageUrl = imageUrl;
-        this.ratings = ratings;
+        this.followers = followers;
     }
 
     public String getFullName() {
@@ -38,6 +36,14 @@ public class Users {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -80,14 +86,6 @@ public class Users {
         this.password = password;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getImageName() {
         return imageName;
     }
@@ -104,11 +102,11 @@ public class Users {
         this.imageUrl = imageUrl;
     }
 
-    public String getRatings() {
-        return ratings;
+    public int getFollowers() {
+        return followers;
     }
 
-    public void setRatings(String ratings) {
-        this.ratings = ratings;
+    public void setFollowers(int followers) {
+        this.followers = followers;
     }
 }

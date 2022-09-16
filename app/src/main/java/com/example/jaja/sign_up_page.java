@@ -79,7 +79,7 @@ public class sign_up_page extends AppCompatActivity {
         String contactNum = "0" + et_contactNumber.getText().toString();
         String imageName = "";
         String imageUrl = "";
-        String ratings = "0";
+        int followers = 0;
         String fullName = firstName + " " + lastName;
 
         if (TextUtils.isEmpty(firstName))
@@ -144,7 +144,7 @@ public class sign_up_page extends AppCompatActivity {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 String userID = user.getUid().toString();
 
-                                Users users = new Users(fullName, userID, firstName, lastName, contactNum, username, password, imageName, imageUrl, ratings);
+                                Users users = new Users(fullName, userID, firstName, lastName, contactNum, username, password, imageName, imageUrl, followers);
 
                                 userDatabase.child(user.getUid())
                                         .setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {

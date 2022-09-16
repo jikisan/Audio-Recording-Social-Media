@@ -19,13 +19,16 @@ import java.util.List;
 public class SubAdapterTrendingsItem extends RecyclerView.Adapter<SubAdapterTrendingsItem.SubItemViewHolder> {
 
     private List<Recordings> subArrRecrordings;
+    private List<SubItem> subItemList;
+    private SubItem subItem;
+    int size;
     SubAdapterTrendingsItem.OnItemClickListener onItemClickListener;
 
     public SubAdapterTrendingsItem() {
     }
 
-    public SubAdapterTrendingsItem(List<Recordings> subArrRecrordings) {
-        this.subArrRecrordings = subArrRecrordings;
+    public SubAdapterTrendingsItem(List<SubItem> subItemList) {
+        this.subItemList = subItemList;
     }
 
     @NonNull
@@ -36,11 +39,14 @@ public class SubAdapterTrendingsItem extends RecyclerView.Adapter<SubAdapterTren
 
     @Override
     public void onBindViewHolder(@NonNull SubItemViewHolder holder, int position) {
-        Recordings recordings = subArrRecrordings.get(position);
 
-        String audioName = recordings.audioName;
-        String dateTime = recordings.dateTime;
-        String audioLink = recordings.audioLink;
+
+//        Recordings recordings = subArrRecrordings.get(position);
+        SubItem subItem = subItemList.get(position);
+
+        String audioName = subItem.audioName;
+        String dateTime = subItem.dateTime;
+        String audioLink = subItem.audioLink;
 
         holder.tv_audioName.setText(audioName);
         holder.tv_dateTime.setText(dateTime);
@@ -67,13 +73,13 @@ public class SubAdapterTrendingsItem extends RecyclerView.Adapter<SubAdapterTren
     @Override
     public int getItemCount() {
 
-        if(subArrRecrordings.size() > 3 )
+        if(subItemList.size() < 3 )
         {
-            return 3;
+            return subItemList.size();
         }
         else
         {
-            return subArrRecrordings.size();
+            return 3;
         }
 
     }

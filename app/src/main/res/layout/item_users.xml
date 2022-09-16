@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
         android:layout_width="match_parent"
@@ -23,41 +24,44 @@
             android:padding="16dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_playButton"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:id="@+id/iv_userProfile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/rounded100"
-                android:backgroundTint="@color/green_background"
-                android:src="@drawable/play_icon"
+                android:backgroundTint="#92C5C5C5"
+                android:padding="4dp"
+                android:src="@drawable/person"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_audioName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:maxHeight="20dp"
-                android:text="Recording"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_playButton"
-                app:layout_constraintTop_toTopOf="@+id/iv_playButton" />
-
-            <TextView
-                android:id="@+id/tv_dateTime"
+                android:id="@+id/tv_userFullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Date and time"
-                android:textSize="8dp"
-                app:layout_constraintStart_toStartOf="@+id/tv_audioName"
-                app:layout_constraintTop_toBottomOf="@+id/tv_audioName" />
+                android:layout_marginStart="8dp"
+                android:text="Loading"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/iv_userProfile"
+                app:layout_constraintTop_toTopOf="@+id/iv_userProfile" />
+
+            <TextView
+                android:id="@+id/tv_userFollowers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="loading"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_userProfile"
+                app:layout_constraintStart_toEndOf="@+id/iv_userProfile"
+                app:layout_constraintStart_toStartOf="@+id/tv_userFullName"
+                app:layout_constraintTop_toBottomOf="@+id/tv_userFullName" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

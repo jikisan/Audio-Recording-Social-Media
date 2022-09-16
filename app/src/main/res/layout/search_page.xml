@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp">
 
@@ -21,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="80"
-            android:background="@drawable/rounded4_with_border"
+            android:background="@drawable/rounded100"
             android:drawableStart="@drawable/search"
             android:elevation="100dp"
             android:hint="Search"
@@ -33,10 +34,33 @@
             android:layout_height="80dp"
             android:layout_marginLeft="8dp"
             android:layout_weight="30"
-            android:src="@drawable/person"
+            android:src="@drawable/search"
             app:civ_border_color="@color/black"
             app:civ_border_width="0.8dp" />
     </LinearLayout>
+
+    <SearchView
+        android:id="@+id/sv_search"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded100"
+        android:focusable="false"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_searches"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sv_search" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_home"

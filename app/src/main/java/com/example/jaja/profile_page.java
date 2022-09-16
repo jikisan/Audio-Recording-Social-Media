@@ -72,6 +72,7 @@ import java.util.concurrent.TimeUnit;
 
 import adapter_and_fragmets.AdapterRecordingsItem;
 import adapter_and_fragmets.AudioRecorder;
+import adapter_and_fragmets.Follow;
 import adapter_and_fragmets.Recordings;
 import adapter_and_fragmets.Users;
 
@@ -84,14 +85,16 @@ public class profile_page extends AppCompatActivity {
     private String mFileName = null;
 
     private RecyclerView rv_myRecordings;
-    private LinearLayout backBtn;
+    private LinearLayout backBtn, linear2;
     private ImageView iv_settings, iv_addPhoto, iv_userPhoto;
-    private TextView tv_userName;
+    private TextView tv_userName, tv_followerCount, tv_recordingsCount, tv_followingsCount;
 
     public static final int GET_FROM_GALLERY = 3;
 
     private Uri imageUri;
     private String userID, tempImageName, audioName;
+    private ArrayList<Follow> followersCountList = new ArrayList<Follow>();
+    private ArrayList<Follow> followingCountList = new ArrayList<Follow>();
     private ArrayList<Recordings> arrRecordings;
     private AdapterRecordingsItem adapterRecordingsItem;
 
@@ -144,6 +147,7 @@ public class profile_page extends AppCompatActivity {
         recordView.setSlideToCancelText("Slide To Cancel");
 
         //recordView.setCustomSounds(1800000, 1800002, 0);
+        recordView.setTimeLimit(25000);
 
         recordView.setOnRecordListener(new OnRecordListener() {
             @Override
@@ -179,8 +183,9 @@ public class profile_page extends AppCompatActivity {
 
             @Override
             public void onFinish(long recordTime, boolean limitReached) {
-                stopRecording(false);
-                uploadAudio();
+                    stopRecording(false);
+                    uploadAudio();
+
 
             }
 
@@ -215,7 +220,8 @@ public class profile_page extends AppCompatActivity {
                     String sp_imageUrl = userProfile.getImageUrl();
                     tempImageName = userProfile.getImageName();
 
-                    tv_userName.setText(sp_fullName);
+                    String capFullname = sp_fullName.substring(0, 1).toUpperCase() + sp_fullName.substring(1);
+                    tv_userName.setText(capFullname);
 
                     if (!sp_imageUrl.isEmpty()) {
                         Picasso.get()
@@ -245,6 +251,7 @@ public class profile_page extends AppCompatActivity {
         arrRecordings = new ArrayList<>();
         adapterRecordingsItem = new AdapterRecordingsItem(arrRecordings, getApplicationContext());
         rv_myRecordings.setAdapter(adapterRecordingsItem);
+
         generateRvData();
         adapterRecordingsItem.notifyDataSetChanged();
 
@@ -267,7 +274,70 @@ public class profile_page extends AppCompatActivity {
                         arrRecordings.add(recordings);
                     }
 
+                    int recordings = arrRecordings.size();
+                    tv_recordingsCount.setText(recordings + "");
+
                     adapterRecordingsItem.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Query query1 = FirebaseDatabase.getInstance().getReference("Follow")
+                .orderByChild("beingFollowed")
+                .equalTo(userID);
+
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                int followerCount = 0;
+
+                if(snapshot.exists())
+                {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren())
+                    {
+                        Follow follow = dataSnapshot.getValue(Follow.class);
+                        followersCountList.add(follow);
+                    }
+
+                    followerCount = followersCountList.size();
+                    tv_followerCount.setText(followerCount + "");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        Query query2 = FirebaseDatabase.getInstance().getReference("Follow")
+                .orderByChild("followers")
+                .equalTo(userID);
+
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int followingCount = 0;
+
+                if(snapshot.exists())
+                {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren())
+                    {
+                        Follow follow = dataSnapshot.getValue(Follow.class);
+                        followingCountList.add(follow);
+
+                    }
+
+                    followingCount = followingCountList.size();
+                    tv_followingsCount.setText(followingCount + "");
                 }
             }
 
@@ -316,6 +386,14 @@ public class profile_page extends AppCompatActivity {
 //                }
             }
         });
+
+        linear2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(profile_page.this, followin_page.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void PickImage() {
@@ -334,7 +412,13 @@ public class profile_page extends AppCompatActivity {
         iv_settings = findViewById(R.id.iv_settings);
         iv_userPhoto = findViewById(R.id.iv_userPhoto);
         backBtn = findViewById(R.id.backBtn);
+        linear2 = findViewById(R.id.linear2);
         tv_userName = findViewById(R.id.tv_userName);
+
+        tv_recordingsCount = findViewById(R.id.tv_recordingsCount);
+        tv_followerCount = findViewById(R.id.tv_followerCount);
+        tv_followingsCount = findViewById(R.id.tv_followingsCount);
+
         rv_myRecordings = findViewById(R.id.rv_myRecordings);
 
         recordView = findViewById(R.id.record_view);

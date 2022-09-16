@@ -23,27 +23,30 @@
             android:padding="16dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_trendingUserPhoto"
+                android:id="@+id/iv_userProfile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/rounded100"
                 android:backgroundTint="#92C5C5C5"
                 android:padding="4dp"
                 android:src="@drawable/person"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_trendingUserName"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_userFullName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="Loading"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/iv_trendingUserPhoto"
-                app:layout_constraintTop_toTopOf="@+id/iv_trendingUserPhoto" />
+                app:layout_constraintEnd_toStartOf="@+id/tv_btnUnFollow"
+                app:layout_constraintStart_toEndOf="@+id/iv_userProfile"
+                app:layout_constraintTop_toTopOf="@+id/iv_userProfile" />
 
             <TextView
                 android:id="@+id/tv_userFollowers"
@@ -52,19 +55,29 @@
                 android:text="loading"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_trendingUserName"
-                app:layout_constraintTop_toBottomOf="@+id/tv_trendingUserName" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_userProfile"
+                app:layout_constraintStart_toEndOf="@+id/iv_userProfile"
+                app:layout_constraintStart_toStartOf="@+id/tv_userFullName"
+                app:layout_constraintTop_toBottomOf="@+id/tv_userFullName" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_trendingsRecordings"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_btnUnFollow"
+                android:layout_width="97dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded4"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Unfollow"
+                android:textAllCaps="false"
+                android:textColor="@color/red_custom"
+                android:textStyle="bold"
+                app:backgroundTint="#A87BF945"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_trendingUserPhoto" />
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
