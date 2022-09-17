@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +45,7 @@ import adapter_and_fragmets.Users;
 public class homepage extends AppCompatActivity {
 
     private ImageView iv_bannerPhoto;
-    private EditText et_search;
+    private TextView et_search;
     private RecyclerView rv_trendings;
 
     private Uri imageUri;

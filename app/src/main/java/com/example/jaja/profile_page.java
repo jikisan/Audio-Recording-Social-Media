@@ -85,7 +85,7 @@ public class profile_page extends AppCompatActivity {
     private String mFileName = null;
 
     private RecyclerView rv_myRecordings;
-    private LinearLayout backBtn, linear2;
+    private LinearLayout backBtn, linear2, linear1;
     private ImageView iv_settings, iv_addPhoto, iv_userPhoto;
     private TextView tv_userName, tv_followerCount, tv_recordingsCount, tv_followingsCount;
 
@@ -205,6 +205,28 @@ public class profile_page extends AppCompatActivity {
             }
         });
 
+        recordView.setRecordPermissionHandler(new RecordPermissionHandler() {
+            @Override
+            public boolean isPermissionGranted() {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    return true;
+                }
+
+                boolean recordPermissionAvailable = ContextCompat.checkSelfPermission(profile_page.this, Manifest.permission.RECORD_AUDIO) == PERMISSION_GRANTED;
+                if (recordPermissionAvailable) {
+                    return true;
+                }
+
+
+                ActivityCompat.
+                        requestPermissions(profile_page.this,
+                                new String[]{Manifest.permission.RECORD_AUDIO},
+                                0);
+
+                return false;
+
+            }
+        });
 
     }
 
@@ -394,6 +416,15 @@ public class profile_page extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        linear1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(profile_page.this, followers_page.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void PickImage() {
@@ -412,6 +443,7 @@ public class profile_page extends AppCompatActivity {
         iv_settings = findViewById(R.id.iv_settings);
         iv_userPhoto = findViewById(R.id.iv_userPhoto);
         backBtn = findViewById(R.id.backBtn);
+        linear1 = findViewById(R.id.linear1);
         linear2 = findViewById(R.id.linear2);
         tv_userName = findViewById(R.id.tv_userName);
 

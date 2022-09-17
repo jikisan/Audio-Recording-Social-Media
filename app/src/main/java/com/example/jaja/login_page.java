@@ -77,7 +77,8 @@ public class login_page extends AppCompatActivity {
                                 startActivity(intent);
 
                             } else {
-                                Toast.makeText(login_page.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+
+                                Toast.makeText(login_page.this, "Please check you internet connection or password.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

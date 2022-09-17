@@ -23,19 +23,19 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 import adapter_and_fragmets.AdapterFollowingsItem;
-import adapter_and_fragmets.AdapterRecordingsItem;
+import adapter_and_fragmets.AdapterUsersItem;
 import adapter_and_fragmets.Follow;
-import adapter_and_fragmets.Recordings;
+import adapter_and_fragmets.Users;
 
-public class followin_page extends AppCompatActivity {
+public class followers_page extends AppCompatActivity {
 
     private String userID;
 
-    private RecyclerView rv_followings;
+    private RecyclerView rv_followers;
     private LinearLayout backBtn;
 
-    private AdapterFollowingsItem adapterRecordingsItem;
-    private ArrayList<Follow> arrFollowing = new ArrayList<Follow>();
+    private AdapterUsersItem adapterUsersItem;
+    private ArrayList<Users> arrFolowers = new ArrayList<Users>();
 
     private StorageReference userStorage;
     private FirebaseUser user;
@@ -44,7 +44,7 @@ public class followin_page extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.followin_page);
+        setContentView(R.layout.followers_page);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getUid();
@@ -60,43 +60,44 @@ public class followin_page extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(followin_page.this, profile_page.class);
+                Intent intent = new Intent(followers_page.this, profile_page.class);
                 startActivity(intent);
             }
         });
 
-        adapterRecordingsItem.setOnItemClickListener(new AdapterFollowingsItem.OnItemClickListener() {
+        adapterUsersItem.setOnItemClickListener(new AdapterUsersItem.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String id = arrFollowing.get(position).getBeingFollowed();
+                String id = arrFolowers.get(position).getUserId();
 
-                Intent intent = new Intent(followin_page.this, user_page.class);
+                Intent intent = new Intent(followers_page.this, user_page.class);
                 intent.putExtra("userID", id);
                 startActivity(intent);
+
             }
         });
     }
 
     private void generateRecyclerLayout() {
 
-        rv_followings.setHasFixedSize(true);
+        rv_followers.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
-        rv_followings.setLayoutManager(linearLayoutManager);
+        rv_followers.setLayoutManager(linearLayoutManager);
 
-        arrFollowing = new ArrayList<>();
-        adapterRecordingsItem = new AdapterFollowingsItem(arrFollowing);
-        rv_followings.setAdapter(adapterRecordingsItem);
+        arrFolowers = new ArrayList<>();
+        adapterUsersItem = new AdapterUsersItem(arrFolowers);
+        rv_followers.setAdapter(adapterUsersItem);
 
         generateRvData();
-        adapterRecordingsItem.notifyDataSetChanged();
+        adapterUsersItem.notifyDataSetChanged();
     }
 
     private void generateRvData() {
 
         Query query = FirebaseDatabase.getInstance().getReference("Follow")
-                .orderByChild("followers")
+                .orderByChild("beingFollowed")
                 .equalTo(userID);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,11 +109,37 @@ public class followin_page extends AppCompatActivity {
                     for(DataSnapshot dataSnapshot : snapshot.getChildren())
                     {
                         Follow follow = dataSnapshot.getValue(Follow.class);
-                        arrFollowing.add(follow);
+                        String followersId = follow.getFollowers();
+
+                        generateFollowersData(followersId);
+
                     }
 
-                    adapterRecordingsItem.notifyDataSetChanged();
+                    adapterUsersItem.notifyDataSetChanged();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void generateFollowersData(String followersId) {
+
+        userDatabase.child(followersId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists())
+                {
+                    Users users = snapshot.getValue(Users.class);
+                    arrFolowers.add(users);
+                    adapterUsersItem.notifyDataSetChanged();
+                }
+
+
             }
 
             @Override
@@ -124,7 +151,7 @@ public class followin_page extends AppCompatActivity {
 
     private void setRef() {
 
-        rv_followings = findViewById(R.id.rv_followings);
+        rv_followers = findViewById(R.id.rv_followers);
         backBtn = findViewById(R.id.backBtn);
     }
 }
